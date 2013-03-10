@@ -8,6 +8,8 @@ use Tiamail::Filter::File;
 use Tiamail::Seed::File;
 use Tiamail::Seed::MySQL;
 use Tiamail::Filter::MySQL;
+use Tiamail::Template::Basic;
+
 
 # select our addresses
 my $selector = Tiamail::Selector::MySQL->new(
@@ -81,3 +83,12 @@ foreach my $entry (@{ $list }) {
 	printf("%s => %s\n", $entry->{email}, $entry->{nick_name});
 }
 
+# test one template
+
+my $template = Tiamail::Template::Basic->new(
+	headers => "To: ##email##\nFrom: test\@example.com\nSubject: Hello ##nick_name##\n",
+	body => "<html><body>\nHello ##nick_name##\nVisit my site at <a href='http://foo.com/bleh'>bleh</a>\n</body></html>",
+);
+
+#printf("Test: $list->{email}\n");
+print $template->render(26, 'test_template', 'http://tiamail.example/', 1, $list->[0]);
