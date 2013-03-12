@@ -18,6 +18,7 @@ Expects a file to parse
 =cut
 
 sub _init {
+	my $self = shift;
 	unless ($self->{args}->{file}) {
 		die "file is a required param";
 	}
@@ -26,7 +27,6 @@ sub _init {
 	}
 	
 	$self->{reader} = FileHandle->new($self->{args}->{file}, 'r');
-
 };
 
 sub process_line {
