@@ -3,10 +3,10 @@ package Tiamal::Parse::OpenClick;
 use strict;
 use warnings;
 
-use base qw( Tiamail::Parse::HTTP );
+use base qw( Tiamail::Parse::File );
 
 sub read_line {
-	my $lines = shift
+	my $lines = shift;
 	foreach ( @{$lines} ) {
 		chomp;
 		next if $_ =~ //;
