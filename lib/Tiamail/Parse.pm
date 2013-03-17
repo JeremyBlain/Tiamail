@@ -22,4 +22,20 @@ sub _init {
 		die "file param not specified";
 	}
 }
+
+
+sub _record_click {
+	my $self = shift;
+	warn "Recording click\n";
+}
+
+sub _record_open {
+	my $self = shift;
+	warn "Recording open\n";
+}
+
+sub _record_send {
+	my $self = shift;
+	warn "Recording send\n";
+}
 1;
