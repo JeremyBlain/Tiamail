@@ -29,8 +29,8 @@ sub render {
 
 	# slurp in body and headers
 
-	my $body = Tiamail::Util::slurp_file($self->{args}->{body});
-	my $headers = Tiamail::Util::slurp_file($self->{args}->{headers});
+	my $body = Tiamail::Util::slurp_file(Tiamail::Conf::get('content_dir') . $self->{args}->{body});
+	my $headers = Tiamail::Util::slurp_file(Tiamail::Conf::get('content_dir') . $self->{args}->{headers});
 
 	unless ($body && $headers) {
 		die ref($self) . " either body or headers or both failed to read";
