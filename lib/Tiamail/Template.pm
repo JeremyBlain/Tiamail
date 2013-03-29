@@ -46,17 +46,6 @@ TODO: url modification options
 
 =cut
 
-sub _init {
-	my $self = shift;
-
-	unless ($self->{args}->{body}) {
-		die "templates must have a body";
-	}
-	unless ($self->{args}->{headers}) {
-		die "templates must have headers";
-	}
-}
-
 sub render {
 	my $self = shift;
 	die "templates must provide a render function";
