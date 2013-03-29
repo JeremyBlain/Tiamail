@@ -11,6 +11,24 @@ Does a search/replace on ##field## replacing it with args{field}
 
 =cut
 
+sub render {
+	my ($self, $id, $template_id, $base_url, $tracking, $params) = @_;
+
+	my $body = $self->{body};
+	my $headers = $self->{headers};
+
+	# some sanity cleanup after headers
+	$headers =~ s/[\r\n]+$//;
+
+	$headers = $self->_search_replace($headers, $params);
+	$body = $self->_search_replace($body, $params);
+	if ($tracking) {
+		$body = $self->_add_tracking($body, $id, $template_id, $base_url);
+	}
+	return $headers . "\n\n" . $body;
+}
+
+
 sub _search_replace {
 	my ($self,$content,$params) = @_;
 

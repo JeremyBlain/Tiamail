@@ -18,15 +18,22 @@ headers => the header text of the email.
 
 =cut
 
+sub prepare {
+	my $self = shift;
+	# not much to prepare in this one, we're just working with strings
+	$self->{body} = $self->{args}->{body};
+	$self->{headers} = $self->{args}->{headers};
+
+	unless ($self->{body} && $self->{headers}) {
+		die ref($self) . " requires arguments of body and headers";
+	}
+}
+
 sub render {
 	my ($self, $id, $template_id, $base_url, $tracking, $params) = @_;
 
-	my $body = $self->{args}->{body};
-	my $headers = $self->{args}->{headers};
-
-	unless ($body && $headers) {
-		die ref($self) . " requires arguments of body and headers";
-	}
+	my $body = $self->{body};
+	my $headers = $self->{headers};
 
 	# some sanity cleanup after headers
 	$headers =~ s/[\r\n]+$//;

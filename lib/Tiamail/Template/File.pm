@@ -19,35 +19,15 @@ Replacement is handled via Tiamail::Template::SearchReplace methods
 =cut
 
 
+sub prepare {
+	my $self = shift;
+	# not much to prepare in this one, we're just working with strings
+	$self->{body} = Tiamail::Util::slurp_file(Tiamail::Config::get('content_dir') . '/' . $self->{args}->{body});
+	$self->{headers} = Tiamail::Util::slurp_file(Tiamail::Config::get('content_dir') . '/' . $self->{args}->{headers});
 
-sub render {
-	my ($self, $id, $template_id, $base_url, $tracking, $params) = @_;
-
-	unless ($self->{args}->{body} && $self->{args}->{headers}) {
+	unless ($self->{body} && $self->{headers}) {
 		die ref($self) . " requires arguments of body and headers";
 	}
-
-	# slurp in body and headers
-
-	my $body = Tiamail::Util::slurp_file(Tiamail::Config::get('content_dir') . '/' . $self->{args}->{body});
-	my $headers = Tiamail::Util::slurp_file(Tiamail::Config::get('content_dir') . '/' . $self->{args}->{headers});
-
-	unless ($body && $headers) {
-		die ref($self) . " either body or headers or both failed to read";
-	}
-		
-
-	# some sanity cleanup after headers
-	$headers =~ s/[\r\n]+$//;
-
-	$headers = $self->_search_replace($headers, $params);
-	$body = $self->_search_replace($body, $params);
-	if ($tracking) {
-		$body = $self->_add_tracking($body, $id, $template_id, $base_url);
-	}
-	return $headers . "\n\n" . $body;
 }
-
-
 
 1;

@@ -8,23 +8,32 @@ use base qw( Tiamail::Base );
 =doc
 
 
-templates should expose one function:
+templates should expose two functions:
+
+prepare()
+
+	This should do any internal preparation such as loading data from disc and such.
+	For example in Template::File we load the files from disc into strings.
+
+
 
 render($id, $template_id, $base_url, $track, \%params)
 
-$id should be a unique identifier to the user we are emailing.  This can be the email address or another identifier that should be unique to the user.
+	$id should be a unique identifier to the user we are emailing.  This can be the email address or another identifier that should be unique to the user.
 
-$template_id should be a unique identifier to the template we are using.  
+	$template_id should be a unique identifier to the template we are using.  
 
-$base_url is the base url of our tracking server.
+	$base_url is the base url of our tracking server.
 
-$track is a true/false value on whether tracking links should be included.
+	$track is a true/false value on whether tracking links should be included.
 
-\%params is a hashref containing data for the template to search/replace or otherwise use in personalization.
+	\%params is a hashref containing data for the template to search/replace or otherwise use in personalization.
 
-The template may provide defaults for some personalization values.
 
-Any personalization value that does not have a default and is not provided in %params should cause the template to die rather than render brokenly.
+
+	The template may provide defaults for some personalization values.
+
+	Any personalization value that does not have a default and is not provided in %params should cause the template to die rather than render brokenly.
 
 
 example:
@@ -46,8 +55,14 @@ TODO: url modification options
 
 =cut
 
+sub prepare {
+	my $self = shift;
+	die "templates should override prepare";
+}
+
 sub render {
 	my $self = shift;
+	
 	die "templates must provide a render function";
 }
 
