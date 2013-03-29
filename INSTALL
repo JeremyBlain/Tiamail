@@ -1,3 +1,11 @@
 cpan File::Tail::Multi
 apt-get install libdbi-perl
 apt-get install libdbd-mysql-perl
+apt-get install libjson-perl
+apt-get install postfix
+apt-get install apache2
+
+Configure postfix so it will relay mail for you
+(see postfix configuration documentation)
+
+
