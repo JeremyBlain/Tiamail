@@ -3,7 +3,8 @@ package Tiamail::Base;
 use strict;
 use warnings;
 
-use Tiamail::Conf;
+use Tiamail::Config;
+use Tiamail::Util;
 
 =item new
 

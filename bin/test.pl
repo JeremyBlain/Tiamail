@@ -9,6 +9,7 @@ use Tiamail::Seed::File;
 use Tiamail::Seed::MySQL;
 use Tiamail::Filter::MySQL;
 use Tiamail::Template::Basic;
+use Tiamail::Template::File;
 
 
 # select our addresses
@@ -23,7 +24,7 @@ my $selector = Tiamail::Selector::MySQL->new(
 
 # filter them based on a list of email addresses that should not be mailed
 my $filter = Tiamail::Filter::File->new(
-	file => './filter.txt',
+	file => 'test/filter.txt',
 	field => 'email'
 );
 
@@ -42,7 +43,7 @@ my $myfilter = Tiamail::Filter::MySQL->new(
 
 # seed the resulting list, use the lst record in the list for our template data
 my $seed = Tiamail::Seed::File->new(
-	file => './seed.txt',
+	file => 'test/seed.txt',
 	field => 'email',
 	record => 'last'
 );
@@ -84,11 +85,21 @@ foreach my $entry (@{ $list }) {
 }
 
 # test one template
+print "============ Template Basic ================\n";
 
-my $template = Tiamail::Template::Basic->new(
+my $template_basic = Tiamail::Template::Basic->new(
 	headers => "To: ##email##\nFrom: test\@example.com\nSubject: Hello ##nick_name##\n",
 	body => "<html><body>\nHello ##nick_name##\nVisit my site at <a href='http://foo.com/bleh'>bleh</a>\n</body></html>",
 );
 
-#printf("Test: $list->{email}\n");
-print $template->render(26, 'test_template', 'http://tiamail.example/', 1, $list->[0]);
+print $template_basic->render(26, 'test_template', 'http://tiamail.example/', 1, $list->[0]);
+
+print "\n\n========== Template File ==================\n";
+
+my $template_file = Tiamail::Template::File->new(
+	headers => 'test/headers',
+	body => 'test/body',
+);
+
+print $template_file->render(26, 'test_template', 'http://tiamail.example/', 1, $list->[0]);
+

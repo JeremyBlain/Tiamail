@@ -1,7 +1,5 @@
 package Tiamail::Seed::File;
 
-use FileHandle;
-
 use base qw( Tiamail::Seed Tiamail::ListGenerator::File );
 
 sub _init {

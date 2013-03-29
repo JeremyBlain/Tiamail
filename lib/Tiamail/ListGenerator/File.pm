@@ -10,17 +10,18 @@ sub _init {
 		die "file param is required";
 	}
 
-	my $file = FileHandle->new();
-	unless ($file->open($self->{args}->{file}, 'r')) {
-		die "Failed to open " . $self->{args}->{file} . " " . $!;
+	my $fh = FileHandle->new();
+	my $file = Tiamail::Config::get('data_dir') . "/" . $self->{args}->{file};
+	unless ($fh->open($file, 'r')) {
+		die "Failed to open " . $file . " " . $!;
 	}
 
 	my @list = ();
-	while (<$file>) {
+	while (<$fh>) {
 		chomp;
 		push(@list, $_);
 	}
-	$file->close();
+	$fh->close();
 	$self->{list} = \@list;
 }
 

@@ -6,7 +6,7 @@ use warnings;
 use FileHandle;
 
 sub slurp_file {
-	($file) = @_;
+	my ($file) = @_;
 	unless (-f $file) {
 		die "$file is not a normal file or does not exist";
 	}
