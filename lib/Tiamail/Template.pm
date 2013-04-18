@@ -8,14 +8,7 @@ use base qw( Tiamail::Base );
 =doc
 
 
-templates should expose two functions:
-
-prepare()
-
-	This should do any internal preparation such as loading data from disc and such.
-	For example in Template::File we load the files from disc into strings.
-
-
+templates should expose one function:
 
 render($id, $template_id, $base_url, $track, \%params)
 
@@ -36,6 +29,9 @@ render($id, $template_id, $base_url, $track, \%params)
 	Any personalization value that does not have a default and is not provided in %params should cause the template to die rather than render brokenly.
 
 
+	If any module initialization is required that is not handled in new() then render should take care of it.
+
+
 example:
 render(26, 'foo_template', 'http://tiamail.example/', 0, $mysql_row_hashref);
 
@@ -52,6 +48,9 @@ change any hrefs to be modified:
 <a href="http://tiamail.example/r/26/foo_template/http://my.website.example/">
 
 TODO: url modification options
+
+
+
 
 =cut
 

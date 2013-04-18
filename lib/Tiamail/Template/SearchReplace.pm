@@ -12,7 +12,7 @@ Does a search/replace on ##field## replacing it with args{field}
 =cut
 
 sub render {
-	my ($self, $id, $template_id, $base_url, $tracking, $params) = @_;
+	my ($self, $params) = @_;
 
 	my $body = $self->{body};
 	my $headers = $self->{headers};
@@ -22,8 +22,8 @@ sub render {
 
 	$headers = $self->_search_replace($headers, $params);
 	$body = $self->_search_replace($body, $params);
-	if ($tracking) {
-		$body = $self->_add_tracking($body, $id, $template_id, $base_url);
+	if ($self->{tracking}) {
+		$body = $self->_add_tracking($body, $params->{$self->{id}}, $self->{template_id}, $self->{base_url});
 	}
 	return $headers . "\n\n" . $body;
 }
@@ -55,7 +55,7 @@ sub _add_tracking {
 	$content =~ s#(<body.*?>)#$1 <img src="$base_url/x.gif/$id/$template_id"/>#;
 
 	# add our hrefs
-	$content =~ s#(a\s+href=["'])(.*?)['"]#$1$base_url/r/$id/$template_id/$2#;
+	$content =~ s#(a\s+href=["'])(.*?)['"]#$1$base_url/r/$id/$template_id/$2#g;
 
 	return $content;
 }

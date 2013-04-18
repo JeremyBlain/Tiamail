@@ -3,18 +3,20 @@ package Tiamail::Template::Basic;
 use strict;
 use warnings;
 
-use base qw( Tiamail::Template Tiamail::Template::SearchReplace );
+use base qw( Tiamail::Template::SearchReplace Tiamail::Template );
 
 =doc 
 
 Very basic/simple Tiamail template.
 
-Does a search/replace on ##field## replacing it with args{field}
-
 Requires arguments of:
 
 body => the body text of the email
 headers => the header text of the email.
+template_id => the identifier for this template
+base_url => the base url for tracking purposes
+id => the field in the params that uniquely identifies the user.  
+tracking => 1 or 0 should we add tracking.
 
 =cut
 
@@ -24,27 +26,25 @@ sub prepare {
 	$self->{body} = $self->{args}->{body};
 	$self->{headers} = $self->{args}->{headers};
 
+	$self->{template_id} = $self->{args}->{template_id};
+	$self->{base_url} = $self->{args}->{base_url};
+	$self->{id} = $self->{args}->{id};
+	$self->{tracking} = $self->{args}->{tracking};
+
 	unless ($self->{body} && $self->{headers}) {
 		die ref($self) . " requires arguments of body and headers";
 	}
-}
-
-sub render {
-	my ($self, $id, $template_id, $base_url, $tracking, $params) = @_;
-
-	my $body = $self->{body};
-	my $headers = $self->{headers};
-
-	# some sanity cleanup after headers
-	$headers =~ s/[\r\n]+$//;
-
-	$headers = $self->_search_replace($headers, $params);
-	$body = $self->_search_replace($body, $params);
-	if ($tracking) {
-		$body = $self->_add_tracking($body, $id, $template_id, $base_url);
+	unless ($self->{template_id}) {
+		die ref($self) . " requires template_id argument";
 	}
-	return $headers . "\n\n" . $body;
+	unless ($self->{base_url}) {
+		die ref($self) . " requires base_url argument";
+	}
+	unless ($self->{id}) {
+		die ref($self) . " requires id argument";
+	}
 }
+
 
 
 
