@@ -1,0 +1,25 @@
+Debian:
+
+apt-get install apache2
+a2enmod rewrite
+
+Add the contents of the rewrite document into the configuration section for <Directory /var/www>
+
+Copy x.gif into /var/www
+
+If you use different paths or a different webserver, Tiamail by default expects the following:
+
+/r/* is handled by the rewrite rule so that we get an access log entry like:
+
+GET /r/10/20/http://www.google.ca/
+
+This should then forward the user onto http://www.google.ca/
+
+The parser reads looking for /r/10/20 for it's reporting.
+
+
+The second url the templates include in the mail looks like:
+
+/x.gif/10/20
+
+This should serve an invisible gif.  The important part is the log entry for the parser to look for. 

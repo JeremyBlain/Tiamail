@@ -12,8 +12,17 @@ sub read_line {
 	foreach ( @{$lines} ) {
 		chomp;
 		next if $_ =~ //;
-		next unless $_ =~ m#postfix/smtp.*?to=<([^>]+)>.*? status=sent/#;
-		_record_send($1);
+		next unless $_ =~ m#postfix/smtp.*?to=<([^>]+)>.*? status=(sent|bounce|deferred|expired)/#;
+		
+		if ($2 eq 'bounce' || $2 eq 'expired') {
+			record_email_hard_bounce($1);
+		}
+		elsif ($2 eq 'deferred') {
+			record_email_soft_bounce($1);
+		}
+		elsif ($2 eq 'sent') {
+			record_email_success($1);
+		}
 	}
 }
 

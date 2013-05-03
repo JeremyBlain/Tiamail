@@ -92,14 +92,16 @@ my $template_basic = Tiamail::Template::Basic->new(
 	body => "<html><body>\nHello ##nick_name##\nVisit my site at <a href='http://foo.com/bleh'>bleh</a>\n</body></html>",
 );
 
+$template_basic->prepare();
 print $template_basic->render(26, 'test_template', 'http://tiamail.example/', 1, $list->[0]);
 
 print "\n\n========== Template File ==================\n";
 
 my $template_file = Tiamail::Template::File->new(
-	headers => 'test/headers',
-	body => 'test/body',
+	headers => 'app2.0/headers',
+	body => 'app2.0/body',
 );
 
+$template_file->prepare();
 print $template_file->render(26, 'test_template', 'http://tiamail.example/', 1, $list->[0]);
 

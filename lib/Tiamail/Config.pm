@@ -18,6 +18,7 @@ my $CONF = {
 	lib_dir => '/home/jeremy/devel/Tiamail/lib',
 	content_dir => '/home/jeremy/devel/Tiamail/work/content',
 	data_dir => '/home/jeremy/devel/Tiamail/work/data',
+	temp_dir => '/home/jeremy/devel/Tiamail/work/tmp',
 };
 
 # get the value

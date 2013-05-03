@@ -24,17 +24,17 @@ sub _init {
 }
 
 
-sub _record_click {
+sub record_click {
 	my $self = shift;
 	warn "Recording click\n";
 }
 
-sub _record_open {
+sub record_open {
 	my $self = shift;
 	warn "Recording open\n";
 }
 
-sub _record_send {
+sub record_send {
 	my $self = shift;
 	warn "Recording send\n";
 }

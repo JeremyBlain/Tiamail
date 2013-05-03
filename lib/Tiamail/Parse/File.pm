@@ -11,10 +11,6 @@ sub _init {
 	unless ($self->{args}->{file}) { 
 		die "file is a required param";	
 	}
-	unless (-f $self->{args}->{file}) {
-		die "file $self->{args}->{file} is not a normal file";
-	}
-	
 }
 
 sub parse {
@@ -22,12 +18,12 @@ sub parse {
 
 	my $tail = File::Tail::Multi->new( 
 		Function => \&read_line,
-		LastRun_File => "/tmp/$self->{args}->{file}.tmp",
+		LastRun_File => sprintf("%s/%s", Tiamail::Config::get('temp_dir'), $self->{args}->{file}.tmp),
 		File => $self->{args}->{file},
 	);
 }
 
-sub read_ine {
+sub read_line {
 	die "Must override read_line!";
 }
 
