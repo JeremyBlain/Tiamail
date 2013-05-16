@@ -20,11 +20,21 @@ record_email_soft_bounce($email)
 
 record_email_success($email)
 
-record_email_send($id, $template, $mta_id)
+record_email_send(
+	id => $id, 
+	template_id => $template, 
+	mta_id => $mta_id,
+	email => $email)
 
-record_email_open($id, $template, $mta_id)
+record_email_open(
+	id => $id, 
+	template_id => $template, 
+	ip => $ip)
 
-record_email_click($id, $template, $mta_id)
+record_email_click(
+	id => $id, 
+	template_id => $template, 
+	ip => $ip)
 
 =cut
 

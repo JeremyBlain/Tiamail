@@ -1,26 +1,46 @@
 package Tiamail::Util::MySQL;
 
+use strict;
+use warnings;
+
 use base qw( Tiamail::Base );
+
+use Params::Validate;
 
 sub mysql_connect {
 	my $self = shift;
 
-	# yes, in theory we don't need all these parameters, but most setups do.  
-	unless ($self->{args}->{host} && $self->{args}->{database} && $self->{args}->{user} && $self->{args}->{pass}) {
-		die "Must specify host, database, user, pass";
-	}
-	my $port = $self->{args}->{port} ? $self->{args}->{port} : 3306;
+	return $self->mysql_custom_connect(
+		database => $self->{args}->{database},
+		user => $self->{args}->{user},
+		pass => $self->{args}->{pass},
+		port => $self->{args}->{port});
+}
 
-	my $dsn = sprintf("DBI:mysql:database=%s;host=%s;port=%s", $self->{args}->{database}, $self->{args}->{host}, $port);
+sub mysql_custom_connect {
+	my $self = shift;
+
+	my %params = validate (@_, {
+		database => 1,
+		user => 1,
+		pass => 1,
+		host => 1,
+		port => 0
+		});
+
+	my $port = $params{port} ? $params{port} : 3306;
+
+	my $dsn = sprintf("DBI:mysql:database=%s;host=%s;port=%s", $params{database}, $params{host}, $port);
 
 	my $dbh = DBI->connect(
-		$dsn, $self->{args}->{user}, $self->{args}->{pass},
+		$dsn, $params{user}, $params{pass},
 		{ AutoCommit => 1, RaiseError => 1}
 	);
 
 	die $! unless $dbh;
 
 	return $dbh;
+
 }
 
 1;

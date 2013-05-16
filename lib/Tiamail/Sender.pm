@@ -7,6 +7,7 @@ use base qw( Tiamail::Base );
 
 sub _verify {
 	my $self = shift;
+
 	unless ($self->{args}->{template}) {
 		die "template not specified";
 	}
@@ -38,9 +39,10 @@ sub send {
 		
 		if ($mta_id) {
 			$self->{args}->{recorder}->record_email_send(
-				$template_data->{ $self->{args}->{template}->{id} },
-				$self->{args}->{template}->{template_id},
-				$mta_id,
+				id => $template_data->{ $self->{args}->{template}->{id} },
+				email => $email,
+				template_id => $self->{args}->{template}->{template_id},
+				mta_id => $mta_id,
 			);
 
 			$self->{args}->{persist}->remove_entry($email);
