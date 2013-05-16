@@ -8,32 +8,36 @@ use base qw( Tiamail::Base );
 =doc
 
 
-templates should expose one function:
+my $template = Tiamail::Template::File->new(
+	headers => 'test/headers',
+	body => 'test/body',
+	template_id => 'test1',
+	id => 'id',
+	tracking => 1,
+);
 
-render($id, $template_id, $base_url, $track, \%params)
+Templates should include the following arguments to new:
 
-	$id should be a unique identifier to the user we are emailing.  This can be the email address or another identifier that should be unique to the user.
-
-	$template_id should be a unique identifier to the template we are using.  
-
-	$base_url is the base url of our tracking server.
-
-	$track is a true/false value on whether tracking links should be included.
-
-	\%params is a hashref containing data for the template to search/replace or otherwise use in personalization.
-
-
-
-	The template may provide defaults for some personalization values.
-
-	Any personalization value that does not have a default and is not provided in %params should cause the template to die rather than render brokenly.
+id => This is the key in the params that uniquely identifies a user.  It could be an email address or another field.
+template_id => This is an identifier of this template.
+tracking => whether to enable tracking of clicks/opens.
+body => the body of the email (or as in the File example, the path to it)
+headers => the headers of the email. (or as in the File example, the path to it)
 
 
-	If any module initialization is required that is not handled in new() then render should take care of it.
+Templates should expose the following function:
+render(\%params)
+
+\%params is a hashref containing data for the template to search/replace or otherwise use in personalization.
 
 
-example:
-render(26, 'foo_template', 'http://tiamail.example/', 0, $mysql_row_hashref);
+
+The template may provide defaults for some personalization values.
+
+Any personalization value that does not have a default and is not provided in %params should cause the template to die rather than render brokenly.
+
+
+If any module initialization is required that is not handled in new() then render should take care of it.
 
 
 Tracking:
@@ -48,8 +52,6 @@ change any hrefs to be modified:
 <a href="http://tiamail.example/r/26/foo_template/http://my.website.example/">
 
 TODO: url modification options
-
-
 
 
 =cut

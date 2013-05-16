@@ -7,27 +7,38 @@ use Net::SMTP;
 
 use base qw( Tiamail::MTA );
 
-sub _init {
-	my $self = shift;
-	unless ($self->{args}->{hosts} && ref($self->{args}->{hosts}) eq 'ARRAY') {
-		die "hosts argument required";
-	}
-}
+=doc
+
+Base SMTP MTA
+
+=cut
 
 sub send {
 	my ($self, $from, $to, $message) = @_;
-	unless ($self->{_init}) {
-		$self->_init();
+	
+	unless ($from && $to && $message) {
+		die "\$mta->send(\$from, \$to, \$message);\n"
 	}
-	my $entry = int(rand(@{ $self->{args}->{hosts} }));
-	my $smtp = Net::SMTP->new( $self->{args}->{hosts}->[$entry] );
-	$smtp->mail($from);
-	$smtp->to($to);
-	$smtp->data();
-	$smtp->datasend($message);
-	$smtp->dataend();
-	$smtp->quit();
+
+	$self->init();
+	
+	my $smtp = $self->get_smtp();
+	if (!$smtp) {
+		return undef;
+	}
+
+	if ( $smtp->mail($from) && $smtp->to($to) && $smtp->data() && $smtp->datasend($message) && $smtp->dataend() && $smtp->quit() ) {
+		# if it's all good, return true
+		return 1;
+	}
+	return undef;
 }
 
+sub init {
+	die "Must override init";
+}
 
+sub get_smtp {
+	die "Must override get_smtp";
+}
 1;

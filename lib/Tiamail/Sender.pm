@@ -10,8 +10,8 @@ sub _verify {
 	unless ($self->{args}->{template}) {
 		die "template not specified";
 	}
-	unless ($self->{args}->{list}) {
-		die "list not specified";
+	unless ($self->{args}->{persist}) {
+		die "persist not specified";
 	}
 	unless ($self->{args}->{mta}) {
 		die "MTA not specified";
@@ -19,9 +19,6 @@ sub _verify {
 	unless ($self->{args}->{from}) {
 		die "from not specified";
 	}
-	unless ($self->{args}->{field}) {
-		die "field name for email not specified";
-	}	
 }
 
 sub send {
@@ -29,14 +26,21 @@ sub send {
 
 	$self->_verify();
 
-	foreach my $record (@{ $self->{args}->{list} }) {
-		$self->{args}->{mta}->send(
-			$self->{args}->{from},
-			$record->{ $self->{args}->{field} },
-			$self->{args}->{template}->render($record)
-		);
-	}
+	while (my ($email, $template_data) = $self->{args}->{persist}->get_entry()) {
+		my $result = $self->{args}->{mta}->send(
+				$self->{args}->{from},
+				$email,
+				$self->{args}->{template}->render($template_data)
+			);
+		
+		if ($result) {
+			$self->{args}->{persist}->remove_entry($email);
+		}
+		else {
+			die sprintf("Send failed for %s\n", $email);
+		}
 
+	}
 }
 
 
