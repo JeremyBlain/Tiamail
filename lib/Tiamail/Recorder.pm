@@ -30,16 +30,22 @@ record_email_click($id, $template, $mta_id)
 
 
 sub record_email_hard_bounce {
+	die "record_email_hard_bounce";
 }
 sub record_email_soft_bounce {
+	die "record_email_soft_bounce";
 }
 sub record_email_success {
+	die "record_email_success";
 }
 sub record_email_send {
+	die "record_email_send";
 }
 sub record_email_open {
+	die "record_email_open";
 }
 sub record_email_click {
+	die "record_email_click";
 }
 
 1;
