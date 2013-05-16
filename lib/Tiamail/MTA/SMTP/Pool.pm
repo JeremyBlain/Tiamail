@@ -29,10 +29,14 @@ sub get_smtp {
 	}
 	my $smtp = Net::SMTP->new( $self->{hosts}->[ $self->{current} ], Timeout => $self->{args}->{timeout} ? $self->{args}->{timeout} : 5 );
 	if ($smtp) {
+		my $return = {
+			obj => $smtp,
+			id => $self->{hosts}->[ $self->{current} ]
+		};
 		$self->{current}++;
-		return $smtp;	
+		return $return;
 	}
-	return undef;
+	return;
 }
 
 1;

@@ -21,8 +21,11 @@ sub get_smtp {
 	my $entry = int(rand(@{ $self->{args}->{hosts} }));
 	my $smtp = Net::SMTP->new( $self->{args}->{hosts}->[$entry], Timeout => $self->{args}->{timeout} ? $self->{args}->{timeout} : 5 );
 	if ($smtp) {
-		return $smtp;
+		return {
+			obj =>	$smtp,
+			id => $self->{args}->{hosts}->[$entry],
+		};
 	}
-	return undef;
+	return;
 }
 

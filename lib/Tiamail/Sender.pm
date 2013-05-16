@@ -19,6 +19,9 @@ sub _verify {
 	unless ($self->{args}->{from}) {
 		die "from not specified";
 	}
+	unless ($self->{args}->{recorder}) {
+		die "recorder not specified";
+	}
 }
 
 sub send {
@@ -27,13 +30,19 @@ sub send {
 	$self->_verify();
 
 	while (my ($email, $template_data) = $self->{args}->{persist}->get_entry()) {
-		my $result = $self->{args}->{mta}->send(
+		my $mta_id = $self->{args}->{mta}->send(
 				$self->{args}->{from},
 				$email,
 				$self->{args}->{template}->render($template_data)
 			);
 		
-		if ($result) {
+		if ($mta_id) {
+			$self->{args}->{recorder}->record_email_send(
+				$template_data->{ $self->{args}->{template}->{id} },
+				$self->{args}->{template}->{template_id},
+				$mta_id,
+			);
+
 			$self->{args}->{persist}->remove_entry($email);
 		}
 		else {

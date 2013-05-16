@@ -24,14 +24,14 @@ sub send {
 	
 	my $smtp = $self->get_smtp();
 	if (!$smtp) {
-		return undef;
+		return;
 	}
 
-	if ( $smtp->mail($from) && $smtp->to($to) && $smtp->data() && $smtp->datasend($message) && $smtp->dataend() && $smtp->quit() ) {
+	if ( $smtp->{obj}->mail($from) && $smtp->to($to) && $smtp->data() && $smtp->datasend($message) && $smtp->dataend() && $smtp->quit() ) {
 		# if it's all good, return true
-		return 1;
+		return $smtp->{id};
 	}
-	return undef;
+	return;
 }
 
 sub init {
