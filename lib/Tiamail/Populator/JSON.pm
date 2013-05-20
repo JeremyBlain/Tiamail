@@ -3,7 +3,7 @@ package Tiamail::Populator::JSON;
 use strict;
 use warnings;
 
-use JSON qw( from_json );
+use JSON qw( decode_json );
 
 use base qw( Tiamail::Populator );
 
@@ -34,7 +34,9 @@ sub init {
 sub add {
 	my ($self,$json_text) = @_;
 	
-	my $json = decode_json( $json_text, { utf8 => 1 });
+	$self->init();
+
+	my $json = decode_json( $json_text );
 
 	foreach my $rec (@{ $json }) {
 		unless (exists($rec->{ $self->{args}->{email} })) {
