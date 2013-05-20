@@ -23,7 +23,7 @@ sub send {
 	unless ($from && $to && $message) {
 		die "\$mta->send(\$from, \$to, \$message);\n"
 	}
-	return 1;
+	return '127.0.0.1';
 }
 
 
