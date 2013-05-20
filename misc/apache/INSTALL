@@ -22,4 +22,17 @@ The second url the templates include in the mail looks like:
 
 /x.gif/10/20
 
-This should serve an invisible gif.  The important part is the log entry for the parser to look for. 
+This should serve an invisible gif.  The important part is the log entry for the parser to look for.
+
+Either of the logging formats below will work depending on if you are behind a proxy which sets x-forwarded-for or not.
+Data recorders are left to their own devices parsing the x-forwarded-for header. 
+
+# logging format when behind a proxy.
+# this replaces the host with the xfowardedfor header.
+LogFormat "\"%{X-Forwarded-For}\"i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" tiaproxy
+CustomLog "logs/access_log" tiaproxy
+
+# combined log format with the host wrapped in ""'s to make sharing a parser with the format above easier.
+LogFormat "\"%h\" %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" tiacombined
+CustomLog "logs/access_log" tiacombined
+
