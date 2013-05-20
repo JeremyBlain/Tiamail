@@ -12,6 +12,7 @@ sub mysql_connect {
 
 	return $self->mysql_custom_connect(
 		database => $self->{args}->{database},
+		host => $self->{args}->{host},
 		user => $self->{args}->{user},
 		pass => $self->{args}->{pass},
 		port => $self->{args}->{port});
