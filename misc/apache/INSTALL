@@ -29,7 +29,7 @@ Data recorders are left to their own devices parsing the x-forwarded-for header.
 
 # logging format when behind a proxy.
 # this replaces the host with the xfowardedfor header.
-LogFormat "\"%{X-Forwarded-For}\"i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" tiaproxy
+LogFormat "\"%{X-Forwarded-For}i\" %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" tiaproxy
 CustomLog "logs/access_log" tiaproxy
 
 # combined log format with the host wrapped in ""'s to make sharing a parser with the format above easier.
