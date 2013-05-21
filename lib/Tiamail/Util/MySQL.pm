@@ -5,6 +5,7 @@ use warnings;
 
 use base qw( Tiamail::Base );
 
+use DBI;
 use Params::Validate;
 
 sub mysql_connect {
