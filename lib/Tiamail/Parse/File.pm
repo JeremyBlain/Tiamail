@@ -29,7 +29,7 @@ sub parse {
 	);
 
 	while (defined( my $line = $tail->read ) ) {
-		read_line($line);
+		$self->read_line($line);
 	}
 }
 
