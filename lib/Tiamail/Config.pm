@@ -17,7 +17,6 @@ my $BASE = $ENV{TIAMAIL_HOME} ? $ENV{TIAMAIL_HOME} : $ENV{HOME};
 
 my $CONF = {
 	base_dir => $BASE,
-	lib_dir => $BASE . '/lib',
 	content_dir => $BASE . '/work/content',
 	data_dir => $BASE . '/work/data',
 	temp_dir => $BASE . '/work/tmp',
