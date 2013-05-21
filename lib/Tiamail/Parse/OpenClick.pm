@@ -8,9 +8,10 @@ use base qw( Tiamail::Parse::File );
 sub read_line {
 	my $lines = shift;
 	foreach ( @{$lines} ) {
+		print $_;
 		chomp;
 		next if $_ =~ //;
-		next unless $_ =~ m#^"([\d\.\, ]+)".*?GET /(r|x.gif)/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)/#;
+		next unless $_ =~ m#^"(\-|[\d\.\, ]+)".*?GET /(r|x.gif)/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)/#;
 		if ($2 eq 'r') {
 			# record click
 			record_email_click($3, $4, $1);
