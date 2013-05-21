@@ -1,4 +1,4 @@
-package Tiamal::Parse::OpenClick;
+package Tiamail::Parse::OpenClick;
 
 use strict;
 use warnings;
