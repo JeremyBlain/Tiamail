@@ -13,11 +13,11 @@ sub read_line {
 		next unless $_ =~ m#^"([\d\.\, ]+)".*?GET /(r|x.gif)/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)/#;
 		if ($2 eq 'r') {
 			# record click
-			record_click($3, $4, $1);
+			record_email_click($3, $4, $1);
 		}
 		else {
 			# record open
-			record_open($3, $4, $1);
+			record_email_open($3, $4, $1);
 		}
 	}
 }

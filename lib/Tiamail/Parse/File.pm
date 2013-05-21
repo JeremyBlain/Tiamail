@@ -18,7 +18,7 @@ sub parse {
 
 	my $tail = File::Tail::Multi->new( 
 		Function => \&read_line,
-		LastRun_File => sprintf("%s/%s", Tiamail::Config::get('temp_dir'), $self->{args}->{file}.tmp),
+		LastRun_File => sprintf("%s/%s.lastrun", Tiamail::Config::get('temp_dir'), Digest::SHA1::sha1_hex($self->{args}->{file})),
 		File => $self->{args}->{file},
 	);
 }
