@@ -55,7 +55,7 @@ sub _add_tracking {
 	$content =~ s#(<body.*?>)#$1 <img src="$base_url/x.gif/$id/$template_id"/>#;
 
 	# add our hrefs
-	$content =~ s#(a\s+href=["'])(.*?)['"]#$1$base_url/r/$id/$template_id/$2#g;
+	$content =~ s#(a\s+href=["'])(http.*?['"])#$1$base_url/r/$id/$template_id/$2#g;
 
 	return $content;
 }

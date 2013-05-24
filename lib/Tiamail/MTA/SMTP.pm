@@ -27,7 +27,7 @@ sub send {
 		return;
 	}
 
-	if ( $smtp->{obj}->mail($from) && $smtp->to($to) && $smtp->data() && $smtp->datasend($message) && $smtp->dataend() && $smtp->quit() ) {
+	if ( $smtp->{obj}->mail($from) && $smtp->{obj}->to($to) && $smtp->{obj}->data() && $smtp->{obj}->datasend($message) && $smtp->{obj}->dataend() && $smtp->{obj}->quit() ) {
 		# if it's all good, return true
 		return $smtp->{id};
 	}

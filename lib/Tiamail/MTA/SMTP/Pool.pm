@@ -1,4 +1,4 @@
-package Tiamail::SMTP::Pool;
+package Tiamail::MTA::SMTP::Pool;
 
 use strict;
 use warnings;
