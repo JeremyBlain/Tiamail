@@ -1,2 +1,4 @@
 	RewriteEngine on
 	RewriteRule ^r/.*?/.*?/http(s?):/?/?(.+) http$1://$2 [R,L,NE,DPI]
+	RewriteRule ^x.gif.+ /x.gif [R,L,DPI]
+
