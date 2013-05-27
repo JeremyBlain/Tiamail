@@ -1,9 +1,9 @@
-package Tiamail::Filter::MySQL;
+package Tiamail::Filter::Single::MySQL;
 
 use strict;
 use warnings;
 
-use base qw( Tiamail::Filter Tiamail::ListGenerator::MySQL::SingleValue );
+use base qw( Tiamail::Filter Tiamail::Util::MySQL );
 
 sub _init {
 	my $self = shift;
@@ -19,13 +19,12 @@ sub filter {
 	my $self = shift;
 	my $list = shift;
 
-	my $filter_list = $self->execute();
-	
-	my %filter = map { $_ => 1 } @{ $filter_list };
+	my $dbh = $self->mysql_connect();
+	my $sth = $dbh->prepare($self->{args}->{query});
 
 	my @new_list = ();
 	foreach my $entry (@{ $list }) {
-		if (!exists( $filter{ $entry->{ $self->{args}->{field} } } )) {
+		if ($sth->execute( $entry->{ $self->{args}->{field} } ) && !$sth->rows()) {
 			push(@new_list, $entry);
 		}
 	}
