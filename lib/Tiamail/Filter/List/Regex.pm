@@ -15,13 +15,13 @@ sub filter {
 	unless ($self->{args}->{field}) {
 		die "filter needs a field parameter";
 	}
-	unless ($self->{args}->{patterns} && UNIVERSAL::isa($self->{args}->{patterns}, 'ARRAY') {
+	unless ($self->{args}->{patterns} && UNIVERSAL::isa($self->{args}->{patterns}, 'ARRAY')) {
 		die "patterns must be passed to new, and must be an array reference";
 	}
 
 	my @new_list = ();
 	foreach my $entry (@{ $list }) {
-		my $match = 0
+		my $match = 0;
 		foreach my $regex (@{ $self->{args}->{patterns} }) {
 			if ($entry->{ $self->{args}->{field} } =~ /$regex/) {
 				$match = 1;

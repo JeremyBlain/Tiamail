@@ -1,4 +1,4 @@
-package Mmail::Filter;
+package Tiamail::Filter;
 
 use strict;
 use warnings;
