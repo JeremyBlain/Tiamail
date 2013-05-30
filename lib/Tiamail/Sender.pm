@@ -23,7 +23,7 @@ sub _verify {
 	unless ($self->{args}->{recorder}) {
 		die "recorder not specified";
 	}
-	if ($self->{args}->{test} && ref($self->{args}->{test} ne 'ARRAY') {
+	if ($self->{args}->{test} && ref($self->{args}->{test} ne 'ARRAY')) {
 		die "test parameter must be an array reference of email addresses";
 	}
 }
@@ -40,12 +40,11 @@ sub send {
 				my $mta_id = $self->{args}->{mta}->send(
 					$self->{args}->{from},
 					$email,
-					$self->{args}->{template}->render($template_data)
+					$self->{args}->{template}->render($template_data),
 				);
 			}
 			return;
 		}
-
 		my $mta_id = $self->{args}->{mta}->send(
 				$self->{args}->{from},
 				$email,
