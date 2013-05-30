@@ -6,9 +6,14 @@ use warnings;
 use base qw( Tiamail::ListGenerator Tiamail::Util::MySQL );
 use DBI;
 use DBD::mysql;
+use Data::Dumper;
 
 sub _init {
 	my $self = shift;
+
+	return if $self->{_init};
+	$self->{_init} = 1;
+	
 
 	my $query = $self->{args}->{query};
 	unless ($query) {
@@ -29,10 +34,12 @@ sub _init {
 	}
 
 	$self->{dbh} = $self->mysql_connect();
+	die $! unless $self->{dbh};
 }
 
 sub execute {
 	my $self = shift;
+	$self->_init();
 	my $sth = $self->{dbh}->prepare($self->{query});
 	$sth->execute( @{ $self->{query_params} } ) or die $!;
 
