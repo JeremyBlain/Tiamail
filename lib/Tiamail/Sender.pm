@@ -31,6 +31,18 @@ sub send {
 	$self->_verify();
 
 	while (my ($email, $template_data) = $self->{args}->{persist}->get_entry()) {
+
+		if ($self->{args}->{test} && ref($self->{args}->{test}) eq 'ARRAY') {
+			foreach my $email (@{ $self->{args}->{test} }) {
+				my $mta_id = $self->{args}->{mta}->send(
+					$self->{args}->{from},
+					$email,
+					$self->{args}->{template}->render($template_data)
+				);
+			}
+			return;
+		}
+
 		my $mta_id = $self->{args}->{mta}->send(
 				$self->{args}->{from},
 				$email,
