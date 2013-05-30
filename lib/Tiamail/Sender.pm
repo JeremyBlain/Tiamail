@@ -23,6 +23,9 @@ sub _verify {
 	unless ($self->{args}->{recorder}) {
 		die "recorder not specified";
 	}
+	if ($self->{args}->{test} && ref($self->{args}->{test} ne 'ARRAY') {
+		die "test parameter must be an array reference of email addresses";
+	}
 }
 
 sub send {
