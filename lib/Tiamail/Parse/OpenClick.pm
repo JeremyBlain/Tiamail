@@ -13,12 +13,17 @@ sub read_line {
 
 	return unless $line =~ m#^"(\-|[\d\.\, ]+)".*?GET /(r|x.gif)/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)(\/?.*?)$#;
 	if ($2 eq 'r') {
+		my $id = $3;
+		my $template_id = $4;
+		my $ip = $1;
+		my $link = $5;
+		$link =~ s/^\///g;
 		# record click
 		$self->record_email_click(
-			id => $3,
-			template_id => $4,
-			ip => $1,
-			link => $5,
+			id => $id,
+			template_id => $template_id,
+			ip => $ip,
+			link => $link,
 		);
 	}
 	else {
