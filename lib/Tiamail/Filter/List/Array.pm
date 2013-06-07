@@ -6,6 +6,7 @@ use warnings;
 use base qw( Tiamail::Filter );
 
 sub init {
+	my $self = shift;
 	if (!$self->{_init}) {
 		unless ($self->{args}->{list} && UNIVERSAL::isa($self->{args}->{list}, 'ARRAY')) {
 			die "Must specify a list argument to new, which must be an array ref";
