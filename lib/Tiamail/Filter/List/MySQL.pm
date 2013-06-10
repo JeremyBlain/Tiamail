@@ -5,27 +5,31 @@ use warnings;
 
 use base qw( Tiamail::Filter Tiamail::ListGenerator::MySQL::SingleValue );
 
-sub _init {
+sub init {
 	my $self = shift;
 
+	if ($self->{filter_map}) {
+		return 1;
+	}
 	unless ($self->{args}->{field}) {
 		die "field param is required";
 	}
 
-	$self->SUPER::_init();
+	my $filter_list = $self->execute();
+	
+	my %filter = map { $_ => 1 } @{ $filter_list };
+	
+	$self->{filter_map} = \%filter;
+
 }
 
 sub filter {
 	my $self = shift;
 	my $list = shift;
 
-	my $filter_list = $self->execute();
-	
-	my %filter = map { $_ => 1 } @{ $filter_list };
-
 	my @new_list = ();
 	foreach my $entry (@{ $list }) {
-		if (!exists( $filter{ $entry->{ $self->{args}->{field} } } )) {
+		if (!exists( $self->{filter_map}->{ $entry->{ $self->{args}->{field} } } )) {
 			push(@new_list, $entry);
 		}
 	}

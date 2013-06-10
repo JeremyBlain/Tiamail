@@ -8,12 +8,10 @@ use DBI;
 use DBD::mysql;
 use Data::Dumper;
 
-sub _init {
+sub initialize_connections {
 	my $self = shift;
 
-	return if $self->{_init};
-	$self->{_init} = 1;
-	
+	return if $self->{dbh};
 
 	my $query = $self->{args}->{query};
 	unless ($query) {
@@ -39,7 +37,7 @@ sub _init {
 
 sub execute {
 	my $self = shift;
-	$self->_init();
+	$self->initialize_connections();
 	my $sth = $self->{dbh}->prepare($self->{query});
 	$sth->execute( @{ $self->{query_params} } ) or die $!;
 
