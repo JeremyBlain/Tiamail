@@ -5,6 +5,10 @@ use warnings;
 
 use base qw( Tiamail::Filter );
 
+sub init {
+	return;
+}
+
 sub filter {
 	my $self = shift;
 	my $list = shift;
