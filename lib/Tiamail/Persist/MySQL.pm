@@ -20,18 +20,18 @@ sub create_storage {
 		$index = "";
 	}
 
-	if (!$self->{dbh}->do("CREATE TABLE IF NOT EXISTS $tablename (id varchar(255), value blob $index)")) {
+	if (!$self->{dbh}->do("CREATE TABLE IF NOT EXISTS `$tablename` (id varchar(255), value blob $index)")) {
 		die "Error creating table";
 	}
 
 	if (exists($self->{args}->{unique}) && !$self->{args}->{unique}) {
-		$self->{add} = $self->{dbh}->prepare("INSERT INTO $tablename (id, value) VALUES (?,?)");
+		$self->{add} = $self->{dbh}->prepare("INSERT INTO `$tablename` (id, value) VALUES (?,?)");
 	}
 	else {
-		$self->{add} = $self->{dbh}->prepare("REPLACE INTO $tablename (id, value) VALUES (?,?)");
+		$self->{add} = $self->{dbh}->prepare("REPLACE INTO `$tablename` (id, value) VALUES (?,?)");
 	}
-	$self->{get} = $self->{dbh}->prepare("SELECT id,value FROM $tablename LIMIT 1");
-	$self->{delete} = $self->{dbh}->prepare("DELETE FROM $tablename WHERE id=?");
+	$self->{get} = $self->{dbh}->prepare("SELECT id,value FROM `$tablename` LIMIT 1");
+	$self->{delete} = $self->{dbh}->prepare("DELETE FROM `$tablename` WHERE id=?");
 
 }
 
