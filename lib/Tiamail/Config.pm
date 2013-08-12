@@ -17,9 +17,9 @@ my $BASE = $ENV{TIAMAIL_HOME} ? $ENV{TIAMAIL_HOME} : $ENV{HOME};
 
 my $CONF = {
 	base_dir => $BASE,
-	content_dir => $BASE . '/work/content',
-	data_dir => $BASE . '/work/data',
-	temp_dir => $BASE . '/work/tmp',
+	content_dir => $BASE . '/content',
+	data_dir => $BASE . '/data',
+	temp_dir => $BASE . '/tmp',
 };
 
 foreach my $key (keys %{ $CONF }) {

@@ -32,6 +32,10 @@ sub render {
 sub _search_replace {
 	my ($self,$content,$params) = @_;
 
+	foreach my $param (keys %{ $params }) {
+		warn "KEY: $param => $params->{$param}\n";
+	}
+	
 	my @replace = $content =~ m/##(.*?)##/g;
 	foreach my $key (@replace) {
 		unless ($params->{$key}) {

@@ -35,6 +35,11 @@ sub initialize_connections {
 	die $! unless $self->{dbh};
 }
 
+sub _init {
+	my $self = shift;
+	$self->initialize_connections();
+}
+
 sub execute {
 	my $self = shift;
 	$self->initialize_connections();
