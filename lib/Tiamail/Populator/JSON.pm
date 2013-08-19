@@ -16,14 +16,12 @@ sub init {
 	unless ($self->{args}->{persist}) {
 		die "persist system must be specified";
 	}
-	
+
 	unless ($self->{args}->{email}) {
 		die "email must be specified";
 	}
 
 	$self->{persist} = $self->{args}->{persist};
-	
-	
 
 	$self->{persist}->create_storage();
 
@@ -33,17 +31,25 @@ sub init {
 
 sub add {
 	my ($self,$json_text) = @_;
-	
+
 	$self->init();
 
 	my $json = decode_json( $json_text );
+
+	my $total = 0; # total number of successful entires
+	my $res;
 
 	foreach my $rec (@{ $json }) {
 		unless (exists($rec->{ $self->{args}->{email} })) {
 			die "Record missing email field";
 		}
-		$self->{persist}->add_entry($rec->{ $self->{args}->{email} }, $rec);
+		$res = $self->{persist}->add_entry($rec->{ $self->{args}->{email} }, $rec);
+		if ($res)
+		{
+			$total += $res;
+		}
 	}
-	return 1;
+
+	return $total;
 }
 1;

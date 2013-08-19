@@ -7,8 +7,7 @@ use Storable qw( nfreeze thaw );
 
 sub add_entry {
 	my ($self,$key,$value) = @_;
-	
-	$self->{add}->execute($key,nfreeze($value));
+	return $self->{add}->execute($key,nfreeze($value));
 }
 
 sub remove_entry {
