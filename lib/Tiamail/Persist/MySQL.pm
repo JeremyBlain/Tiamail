@@ -1,8 +1,9 @@
 package Tiamail::Persist::MySQL;
 
-use base qw( Tiamail::Persist::SQL Tiamail::Util::MySQL );
+use strict;
+use warnings;
 
-use Digest::SHA1;
+use base qw( Tiamail::Persist::SQL Tiamail::Util::MySQL );
 
 sub create_storage {
 	my $self = shift;
