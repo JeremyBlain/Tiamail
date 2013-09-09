@@ -23,8 +23,8 @@ sub create_storage {
 
 	$self->{add} = $self->{dbh}->prepare("REPLACE INTO $tablename (id, value) VALUES (?,?)");
 
-	$self->{get} = $self->{dbh}->prepare("SELECT id,value FROM `$tablename` LIMIT 1");
-	$self->{delete} = $self->{dbh}->prepare("DELETE FROM `$tablename` WHERE id=?");
+	$self->{get} = $self->{dbh}->prepare("SELECT id,value FROM $tablename LIMIT 1");
+	$self->{delete} = $self->{dbh}->prepare("DELETE FROM $tablename WHERE id=?");
 
 }
 
