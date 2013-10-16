@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use File::Tail;
-use Digest::SHA1;
 use FileHandle;
 
 use base qw ( Tiamail::Parse );
