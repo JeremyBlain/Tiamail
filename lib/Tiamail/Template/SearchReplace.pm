@@ -34,7 +34,7 @@ sub _search_replace {
 
 	my @replace = $content =~ m/##(.*?)##/g;
 	foreach my $key (@replace) {
-		unless ($params->{$key}) {
+		unless (exists($params->{$key})) {
 			die "expected $key in params and did not receive it";
 		}
 		$content =~ s/##$key##/$params->{$key}/g;
