@@ -15,7 +15,7 @@ sub create_storage {
 	
 	my $tablename = $self->{dbh}->quote_identifier($self->{args}->{persist_id});
 
-	my $create = "CREATE TABLE IF NOT EXISTS $tablename  (id varchar(255), value blob, primary key(id))";
+	my $create = "CREATE TABLE IF NOT EXISTS $tablename  (id varchar(255), value mediumblob, primary key(id))";
 
 	if (!$self->{dbh}->do($create)) {
 		die "Error creating table";
