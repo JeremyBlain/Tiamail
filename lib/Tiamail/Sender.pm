@@ -37,6 +37,7 @@ sub send {
 
 		if ($self->{args}->{test} && ref($self->{args}->{test}) eq 'ARRAY') {
 			foreach my $email (@{ $self->{args}->{test} }) {
+				$template_data->{email} = $email;
 				my $mta_id = $self->{args}->{mta}->send(
 					$self->{args}->{from},
 					$email,
