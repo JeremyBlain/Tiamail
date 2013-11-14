@@ -5,7 +5,7 @@ use warnings;
 
 use base qw( Tiamail::Parse::File );
 
-use Date::Manip;
+use Date::Parse qw( str2time );
 
 sub read_line {
 	my $self = shift;
@@ -48,8 +48,6 @@ sub read_line {
 }
 sub generate_time {
 	my $string = shift;
-	my $date = new Date::Manip::Date;
-	my $err = $date->parse_format('%d/%b/%Y:%T %z',$string);
-	return $date->secs_since_1970_GMT();
+	return str2time($string);
 }
 1;
