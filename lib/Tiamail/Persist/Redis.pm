@@ -15,10 +15,17 @@ sub create_storage {
 		die "Must specify a valid persist id";
 	}
 
-	my $redis = Redis->new(
+	my %args = (
 		server => $self->{args}->{redis_server},
 		reconnect => $self->{args}->{redis_reconnect} ? $self->{args}->{redis_reconnect} : 60,
 	);
+	if ($self->{args}->{redis_password}) {
+		$args{password} = $self->{args}->{redis_password};
+	}
+	
+	
+	my $redis = Redis->new(%args);
+
 	$self->{redis} = $redis;
 }
 
