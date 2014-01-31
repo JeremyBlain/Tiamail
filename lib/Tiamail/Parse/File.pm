@@ -23,8 +23,8 @@ sub parse {
 		maxinterval => 10,
 		adjustafter => 10,
 		ignore_nonexistant => 1,
-		tail => -1,
-		reset_tail => -1,
+		tail => 0,
+		reset_tail => 0,
 	);
 
 	while (defined( my $line = $tail->read ) ) {
