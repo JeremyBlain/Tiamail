@@ -13,7 +13,7 @@ sub read_line {
 
 	# "-" - - [21/May/2013:17:26:42 -0400] "GET /r/10/1000001/http://www.google.ca/ HTTP/1.1" 302 245 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.68 Safari/537.17"
 
-	return unless $line =~ m#^"(\-|[\d\.\, ]+)"\s+\-\s+\-\s+\[(\d+\/[A-Za-z]+\/\d+:\d+:\d+:\d+\s+[\+\-]\d+)\]\s+\"GET /(r|x.gif)/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)(\/?.*?)$#;
+	return unless $line =~ m#^"(\-|[\d\.\, ]+)"\s+\-\s+\-\s+\[(\d+\/[A-Za-z]+\/\d+:\d+:\d+:\d+\s+[\+\-]\d+)\]\s+\"GET /(r|t|[xt]\.gif)/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)(\/?.*?)$#;
 
 #	return unless $line =~ m#^"(\-|[\d\.\, ]+)"\s.*?GET /(r|x.gif)/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)(\/?.*?)$#;
 
@@ -22,8 +22,8 @@ sub read_line {
 	my $template_id = $5;
 	my $ip = $1;
 	my $link = $6;
+
 	my $time = generate_time($2);
-	$link =~ s/^\///g;
 
 	if ($type eq 'r') {
 		$link =~ s/^\///g;
@@ -33,7 +33,27 @@ sub read_line {
 			template_id => $template_id,
 			ip => $ip,
 			link => $link,
-			time => $time
+			time => $time,
+			tracking_id => 0
+		);
+	}
+	elsif ($type eq 't') {
+		# includes tracking id
+		$link =~ s/^\///g;
+		my $tracking_id = 0;
+		if ($link =~ /([A-Za-z0-9_]+)(\/.*?)/) {
+			$tracking_id = $1;
+			$link = $2;
+		}
+
+
+		$self->record_email_click(
+			id => $id,
+			template_id => $template_id,
+			ip => $ip,
+			link => $link,
+			time => $time,
+			tracking_id => $tracking_id
 		);
 	}
 	else {
