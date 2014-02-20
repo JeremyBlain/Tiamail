@@ -44,6 +44,11 @@ sub render {
 	# fix up \r\n for headers
 	$headers =~ s/\n/\r\n/g;
 
-	return $headers . "\r\n\r\n" . encode_qp($body, "\r\n");
+	$body = encode_qp($body, "\r\n");
+
+	# clean up some ugliness in QP
+	$body =~ s/=20/ /g;
+
+	return $headers . "\r\n\r\n" . $body;
 }
 1;
