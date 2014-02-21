@@ -48,6 +48,7 @@ sub render {
 
 	# clean up some ugliness in QP
 	$body =~ s/=20/ /g;
+	$body =~ s/ =\r\n/ \r\n/g;
 
 	return $headers . "\r\n\r\n" . $body;
 }
