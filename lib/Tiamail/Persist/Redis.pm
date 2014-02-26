@@ -33,6 +33,7 @@ sub add_entry {
 	my ($self,$key,$value) = @_;
 	
 	$self->{redis}->lpush($self->{args}->{persist_id}, nfreeze([ $key, $value ]));
+	return 1;
 }
 
 sub remove_entry {
