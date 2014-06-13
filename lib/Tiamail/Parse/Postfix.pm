@@ -18,13 +18,13 @@ sub read_line {
 	return unless $line =~ m#\bpostfix\b.*/(?:smtp|error)\b.*?to=<([^>]+)>.*?\bstatus=(sent|bounced|deferred|expired)\b#;
 
 	if ($2 eq 'bounced' || $2 eq 'expired') {
-		$self->record_email_hard_bounce($1);
+		$self->record_email_hard_bounce(email => $1);
 	}
 	elsif ($2 eq 'deferred') {
-		$self->record_email_soft_bounce($1);
+		$self->record_email_soft_bounce(email => $1);
 	}
 	elsif ($2 eq 'sent') {
-		$self->record_email_success($1);
+		$self->record_email_success(email => $1);
 	}
 }
 
